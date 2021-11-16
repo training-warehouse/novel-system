@@ -11,12 +11,12 @@
 
 <script>
 	let pageList = {
-		0:'/pages/readList/readList',
-		1:'/pages/listenNoval/listenNoval',
-		2:'/pages/listenMusic/listenMusic',
-		3:'/pages/listenKnowledge/listenKnowledge',
+		0: '/pages/readList/readList',
+		1: '/pages/listenNoval/listenNoval',
+		2: '/pages/listenMusic/listenMusic',
+		3: '/pages/listenKnowledge/listenKnowledge',
 	}
-	
+
 	export default {
 		name: "functionSort",
 		props: {
@@ -26,13 +26,14 @@
 			}
 		},
 		data() {
-			return {
-				switchToPage(pageIndex) {
-					uni.navigateTo({
-						url:pageList[pageIndex]
-					})
-				}
-			};
+			return {};
+		},
+		methods: {
+			switchToPage(pageIndex) {
+				uni.navigateTo({
+					url: pageList[pageIndex]
+				})
+			}
 		}
 	}
 </script>

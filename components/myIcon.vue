@@ -1,5 +1,5 @@
 <template>
-	<text class="iconfont" :class="[iconId,iconColor]" :style="{fontSize:`${iconSize}rpx`}"></text>
+	<text class="iconfont" :class="[iconId,iconColor]" :style="{fontSize:`${iconSize}rpx`}" @tap="onTap"></text>
 </template>
 
 <script>
@@ -23,6 +23,11 @@
 			return {
 
 			};
+		},
+		methods:{
+			onTap(){
+				this.$emit('iconTap')
+			}
 		}
 	}
 </script>
