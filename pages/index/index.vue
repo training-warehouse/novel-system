@@ -14,6 +14,7 @@
 			</list-header>
 			<book-list :bookList="item.books"></book-list>
 		</block>
+		<my-audio></my-audio>
 	</view>
 </template>
 
@@ -24,6 +25,7 @@
 	import listHeader from '@/components/listHeader.vue'
 	import recommond from '@/components/compound/recommond.vue'
 	import bookList from '@/components/bookList.vue'
+	import myAudio from '@/components/myAudio.vue'
 
 	export default {
 		components: {
@@ -33,6 +35,7 @@
 			listHeader,
 			recommond,
 			bookList,
+			myAudio,
 		},
 
 		data() {
