@@ -4,32 +4,39 @@
 		<!-- 进度部分 -->
 		<view class="flex align-center justify-center font" style="color: #7a8388;height: 65rpx;">
 			<!-- 总时长 -->
-			<view>00:00</view>
+			<view>{{durationTime|formatTime}}</view>
 			<!-- 进度条 -->
 			<view style="width: 500rpx;">
-				<slider block-size="16" activeColor="#e48267" backgroundColor="#eef2f3" />
+				<slider block-size="16" activeColor="#e48267" backgroundColor="#eef2f3" :max="durationTime" :value="currentTime" @change="sliderToPlay" @changing="sliderToPlay"/>
 			</view>
 			<!-- 当前播放时间 -->
-			<view>00:00</view>
+			<view>{{currentTime|formatTime}}</view>
 		</view>
 
 		<view style="height: 95rpx;" class="flex align-center justify-between mx-2">
 			<!-- 音频相关信息 -->
 			<view class="font" style="color: #424651;">
-				<view>歌手-The One</view>
-				<view>歌曲-暗香</view>
+				<view>歌手-{{singerName}}</view>
+				<view>歌曲-{{audioName}}</view>
 			</view>
 			<!-- 音频按钮 -->
-			<view>
-				<my-icon iconId="icon-shangyishou" iconSize="75"></my-icon>
-				<my-icon iconId="icon-ziyuan" iconSize="75" class="mx-2"></my-icon>
-				<my-icon iconId="icon-xiayishou" iconSize="75"></my-icon>
+			<view class="flex align-center">
+				<view class="animated" hover-class="pulse">
+					<my-icon iconId="icon-shangyishou" iconSize="75" @iconTap="PreOrNext('pre')"/>
+				</view>
+				<my-icon :iconId="playStatus?'icon-bofang':'icon-ziyuan'" iconSize="75" class="mx-2"
+					@iconTap='PlayOrPause'/>
+				<view class="animated" hover-class="pulse">
+					<my-icon iconId="icon-xiayishou" iconSize="75" @iconTap="PreOrNext('next')"/>
+				</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import unit from '@/common/unit.js'
+	
 	import {
 		mapState,
 		mapGetters,
@@ -43,16 +50,29 @@
 
 			};
 		},
+		filters:{
+			...unit
+		},
 		computed: {
 			...mapState({
+				playStatus: ({audio}) => audio.playStatus,
+				durationTime:({audio}) => audio.durationTime,
+				currentTime:({audio}) => audio.currentTime,
 			}),
+			...mapGetters([
+				'audioName',
+				'singerName'
+			])
 		},
-		methods:{
+		methods: {
 			...mapMutations([
 				'destruction'
 			]),
 			...mapActions([
-				'init'
+				'init',
+				'PlayOrPause',
+				'PreOrNext',
+				'sliderToPlay'
 			])
 		},
 		mounted() {
