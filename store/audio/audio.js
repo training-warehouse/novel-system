@@ -18,6 +18,11 @@ export default {
 			let currentIndex = state.currentPlayIndex
 			let singer = musics[currentIndex].singer
 			return singer.name
+		},
+		singerSynopsis(state){
+			let currentIndex = state.currentPlayIndex
+			let singer = musics[currentIndex].singer
+			return singer.synopsis
 		}
 	},
 	mutations: {

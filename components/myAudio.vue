@@ -1,8 +1,8 @@
 <template>
 	<view class="fixed-bottom mx-2 mb-1 rounded"
-		style="height: 160rpx;margin-bottom: 120rpx; background-color: #d1ccc0;opacity: 0.9;">
+		style="height: 160rpx;margin-bottom: 120rpx; background-color: #d1ccc0;opacity: 0.9;" @tap="toDetailPage">
 		<!-- 进度部分 -->
-		<view class="flex align-center justify-center font" style="color: #7a8388;height: 65rpx;">
+		<view class="flex align-center justify-center font" style="color: #7a8388;height: 65rpx;" @tap.stop>
 			<!-- 总时长 -->
 			<view>{{durationTime|formatTime}}</view>
 			<!-- 进度条 -->
@@ -20,7 +20,7 @@
 				<view>歌曲-{{audioName}}</view>
 			</view>
 			<!-- 音频按钮 -->
-			<view class="flex align-center">
+			<view class="flex align-center" @tap.stop>
 				<view class="animated" hover-class="pulse">
 					<my-icon iconId="icon-shangyishou" iconSize="75" @iconTap="PreOrNext('pre')"/>
 				</view>
@@ -73,7 +73,12 @@
 				'PlayOrPause',
 				'PreOrNext',
 				'sliderToPlay'
-			])
+			]),
+			toDetailPage(){
+				uni.navigateTo({
+					url:'/pages/musicDetail/musicDetail'
+				})
+			}
 		},
 		mounted() {
 			this.init()
