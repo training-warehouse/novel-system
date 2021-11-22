@@ -8,6 +8,7 @@ export default {
 		currentPlayIndex: 0,
 		durationTime: 10,
 		currentTime: 0,
+		audioList: []
 	},
 	getters: {
 		audioName(state) {
@@ -19,7 +20,7 @@ export default {
 			let singer = musics[currentIndex].singer
 			return singer.name
 		},
-		singerSynopsis(state){
+		singerSynopsis(state) {
 			let currentIndex = state.currentPlayIndex
 			let singer = musics[currentIndex].singer
 			return singer.synopsis
@@ -58,6 +59,16 @@ export default {
 		},
 		changePlayStatus(state, Boolean) {
 			state.playStatus = Boolean
+		},
+		getAudioList(state, audioList) {
+			for (let item of audioList) {
+				state.audioList.push({
+					id: item.id,
+					audioName: item.name,
+					singerName: item.singer.name,
+					playStatus: 0 // -1:暂停 | 0:停止 | 1:播放
+				})
+			}
 		}
 	},
 	actions: {
@@ -68,6 +79,7 @@ export default {
 			if (audio) return
 			audio = uni.createInnerAudioContext()
 			commit('getDurationTime', audio.duration)
+			commit('getAudioList', musics)
 
 			// 监听
 			audio.onPlay(() => {
