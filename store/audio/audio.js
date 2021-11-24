@@ -153,6 +153,27 @@ export default {
 					commit('changeCurrentTime', time)
 				}, 200)
 			}
+		},
+		selectPlay({
+			state,
+			commit
+		}, id) {
+			let currentIndex = musics.findIndex(item => item.id === id)
+			// commit('audioStop')
+			// commit('changePlayIndex', currentIndex)
+			// commit('audioPlay')
+			if (state.currentPlayIndex === currentIndex) {
+				if (state.playStatus) {
+					commit('audioPause')
+				} else {
+					commit('audioPlay')
+				}
+				return
+			} else {
+				commit('audioStop')
+			}
+			commit('changePlayIndex', currentIndex)
+			commit('audioPlay')
 		}
 	}
 }

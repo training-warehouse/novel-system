@@ -1,6 +1,6 @@
 <template>
-	<view>
-		<page-title>音乐详情</page-title>
+	<view style="height: 100vh;" :class="nightStatus?'nightTheme':''">
+		<page-title :Theme="nightStatus?'nightTheme':'bg-white'">音乐详情</page-title>
 		<!-- 歌曲信息 -->
 		<view class="d-inline-block w-100 text-center py-4">
 			<view>
@@ -46,7 +46,7 @@
 				</view>
 			</view>
 
-			<view class="flex align-center justify-center font text-light-black" style="padding-top: 100rpx;">
+			<view class="flex align-center justify-center font" style="padding-top: 100rpx;">
 				<view class="flex flex-column align-center" @tap="changeStatus('listStatus')">
 					<my-icon :iconId="listStatus?'icon-liebiao':'icon-icon--'" iconSize="60"></my-icon>
 					<text class="pt-1">播放列表</text>
@@ -64,7 +64,7 @@
 		</view>
 
 		<!-- 歌手信息部分 -->
-		<view class="fixed-bottom shadow p-2 animated fadeInUp" style="height: 260rpx;border-radius: 30rpx;"
+		<view class="fixed-bottom shadow p-2 animated fadeInUp" style="height: 260rpx;border-radius: 30rpx;z-index: 0;"
 			v-if="!listStatus">
 			<view class="flex justify-between">
 				<view>
@@ -77,7 +77,7 @@
 						<text class="font-weight-bold">{{singerName}}</text>
 					</view>
 				</view>
-				<my-icon iconId="icon-jieshao" iconSize="65"></my-icon>
+				<my-icon iconId="icon-jieshao" iconSize="65" @iconTap='showSingerSynopsis'></my-icon>
 			</view>
 
 			<view>
@@ -95,7 +95,8 @@
 				<view class="">
 				</view>
 				<block v-for="(item,index) in audioList" :key="item.id">
-					<view class="flex align-center font px-2" style="height: 85rpx;" hover-class="bg-light">
+					<view class="flex align-center font px-2" style="height: 85rpx;" hover-class="bg-light"
+						@tap="selectPlay(item.id)">
 						<text class="flex-1 text-ellipsis">{{item.audioName}}</text>
 						<text class="flex-1 text-ellipsis">{{item.singerName}}</text>
 						<view class="flex-1 ml-3 flex align-center">
@@ -106,6 +107,13 @@
 				</block>
 			</scroll-view>
 		</view>
+
+		<!-- 歌手简介详情 -->
+		<uni-popup ref='popup'>
+			<view class="px-2 shadow" style="width: 600rpx;height: 850rpx; border-radius: 40rpx;" :class="nightStatus?'nightTheme':''">
+				<text class="font">{{singerSynopsis}}</text>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -118,11 +126,13 @@
 	} from 'vuex'
 
 	import pageTitle from '@/components/pageTitle.vue'
+	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import unit from '@/common/unit.js'
 
 	export default {
 		components: {
-			pageTitle
+			pageTitle,
+			uniPopup
 		},
 		filters: {
 			formatTime(num) {
@@ -165,10 +175,14 @@
 			...mapActions([
 				'sliderToPlay',
 				'PlayOrPause',
-				'PreOrNext'
+				'PreOrNext',
+				'selectPlay'
 			]),
 			changeStatus(statusType) {
 				this[statusType] = !this[statusType]
+			},
+			showSingerSynopsis(){
+				this.$refs.popup.open()
 			}
 		}
 	}
